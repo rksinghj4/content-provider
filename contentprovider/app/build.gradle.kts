@@ -42,6 +42,9 @@ android {
 dependencies {
     implementation(libs.coil)
 
+    implementation("androidx.media3:media3-exoplayer:1.3.1") // Or the latest stable version
+    implementation("androidx.media3:media3-ui:1.3.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -17,7 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 data class ClickActions(
-    val pickContent: () -> Unit
+    val singleImageOnly: () -> Unit = {},
+    val multipleImage: () -> Unit = {},
+    val videoPicker: () -> Unit = {},
 )
 
 @Composable
@@ -26,11 +28,12 @@ fun MainScreen(clickActions: ClickActions) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CardItem(text = "Image Picker", clickActions.pickContent)
+        CardItem(text = "Single Image Picker", clickActions.singleImageOnly)
 
-        CardItem(text = "Uri") {
+        CardItem(text = "Multiple Image Picker", clickActions.multipleImage)
 
-        }
+        CardItem(text = "Video Picker", clickActions.videoPicker)
+
     }
 }
 
@@ -52,7 +55,10 @@ fun CardItem(text: String, onClick: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = text)
+            Text(
+                text = text,
+                color = Color.White
+            )
         }
     }
 }

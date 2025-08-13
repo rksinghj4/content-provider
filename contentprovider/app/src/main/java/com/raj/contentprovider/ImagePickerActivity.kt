@@ -5,8 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.raj.contentprovider.ui.theme.ContentProviderTheme
 
@@ -56,30 +59,55 @@ fun ImageWithButton() {
     var imageUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
+    // ActivityResultContracts.GetContent() or ActivityResultContracts.PickVisualMedia() - for single image
+    //ActivityResultContracts.GetContent() k sath resultContract.launch("image/*") - for single image
 
-    val resultContract =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(),
+    val resultContract: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
             onResult = { pickedUri: Uri? ->
+                //It is single image picker
                 imageUri = pickedUri
-            })
+            }
+        )//Will launch the Gallery
+
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         imageUri?.let { uri ->
+            //Two way to load image single Uri
+            // 1. AsyncImage
+            // 2. Use rememberAsyncImagePainter in Image
+            AsyncImage(
+                modifier = Modifier
+                    .width(300.dp)
+                    .fillMaxHeight(fraction = .3f),
+                model = uri, //We can pass Uri or Url Any?
+                contentScale = ContentScale.Crop,
+                contentDescription = "picked-img"
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             Image(
                 modifier = Modifier
                     .width(300.dp)
                     .fillMaxHeight(fraction = .5f),
                 contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(uri), contentDescription = "picked-img"
+                //rememberAsyncImagePainter is part of coil library
+                painter = rememberAsyncImagePainter(uri),
+                contentDescription = "picked-img"
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-                resultContract.launch("image/*")
+                //This is same for single image or multiple image
+                resultContract.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                //Launch the Image Picker:
+                //resultContract.launch("image/*") if above using ActivityResultContracts.GetContent()
             }) {
             Text(text = "Pick Image")
         }

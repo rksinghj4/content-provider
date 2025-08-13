@@ -25,9 +25,17 @@ class MainActivity : ComponentActivity() {
 
 
     private fun clickHandler(): ClickActions =
-        ClickActions(pickContent = {
-            ImagePickerActivity.show(this)
-        })
+        ClickActions(
+            singleImageOnly = {
+                ImagePickerActivity.show(this)
+            },
+            multipleImage = {
+                MultiImagePickerActivity.show(fromActivity = this)
+            },
+            videoPicker = {
+                VideoPickerActivity.show(this)
+            }
+        )
 }
 
 
