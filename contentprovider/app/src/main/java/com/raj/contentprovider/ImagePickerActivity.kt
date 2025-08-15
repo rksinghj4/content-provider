@@ -62,8 +62,9 @@ fun ImageWithButton() {
     // ActivityResultContracts.GetContent() or ActivityResultContracts.PickVisualMedia() - for single image
     //ActivityResultContracts.GetContent() k sath resultContract.launch("image/*") - for single image
 
-    val resultContract: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
+    val managedActivityResultLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
             onResult = { pickedUri: Uri? ->
                 //It is single image picker
                 imageUri = pickedUri
@@ -104,8 +105,10 @@ fun ImageWithButton() {
         Spacer(modifier = Modifier.height(20.dp))
         Button(modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-                //This is same for single image or multiple image
-                resultContract.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                managedActivityResultLauncher.launch(
+                    //This PickVisualMediaRequest is same for single image or multiple image with ImageOnly
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
                 //Launch the Image Picker:
                 //resultContract.launch("image/*") if above using ActivityResultContracts.GetContent()
             }) {

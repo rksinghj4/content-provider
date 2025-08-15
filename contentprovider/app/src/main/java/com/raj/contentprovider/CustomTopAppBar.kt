@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopAppBar(titleText: String, content: @Composable () -> Unit) {
+    //Scaffold is the best choice to be root layout.
+    //Surface could also be the one.
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
@@ -58,7 +59,7 @@ fun MultiImageWithButton() {
     }
     //ActivityResultContracts.PickVisualMedia() -  For single VisualMediaMedia, (ImageOnly or VideoOnly)
     //ActivityResultContracts.PickMultipleVisualMedia() - ImageAndVideo
-    val resultContract =
+    val managedActivityResultLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>> =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia(),
             onResult = { pickedUris: List<@JvmSuppressWildcards Uri> ->
                 //It is single image picker
@@ -78,7 +79,7 @@ fun MultiImageWithButton() {
             onClick = {
                 //ImageAndVideo - Picker will show both Images and Videos
                 //ImageOnly - Launch the Image Picker: which will show you just images (filter for images)
-                resultContract.launch(
+                managedActivityResultLauncher.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
             }) {
