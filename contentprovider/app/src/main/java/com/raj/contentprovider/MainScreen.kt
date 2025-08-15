@@ -20,6 +20,7 @@ data class ClickActions(
     val singleImageOnly: () -> Unit = {},
     val multipleImage: () -> Unit = {},
     val videoPicker: () -> Unit = {},
+    val documentPicker: () -> Unit = {}
 )
 
 @Composable
@@ -33,6 +34,9 @@ fun MainScreen(clickActions: ClickActions) {
         CardItem(text = "Multiple Image Picker", clickActions.multipleImage)
 
         CardItem(text = "Video Picker", clickActions.videoPicker)
+
+        CardItem(text = "Document Picker", clickActions.documentPicker)
+
 
     }
 }

@@ -57,6 +57,7 @@ fun MultiImageWithButton() {
         mutableStateOf<List<Uri?>>(emptyList())
     }
     //ActivityResultContracts.PickVisualMedia() -  For single VisualMediaMedia, (ImageOnly or VideoOnly)
+    //ActivityResultContracts.PickMultipleVisualMedia() - ImageAndVideo
     val resultContract =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia(),
             onResult = { pickedUris: List<@JvmSuppressWildcards Uri> ->

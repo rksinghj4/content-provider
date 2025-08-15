@@ -15,6 +15,9 @@
         android:theme="@style/Theme.ContentProvider"
         tools:targetApi="31">
         <activity
+            android:name=".DocumentPickerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MultiImagePickerActivity"
             android:exported="false" />
         <activity

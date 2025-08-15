@@ -34,7 +34,10 @@ class MainActivity : ComponentActivity() {
             },
             videoPicker = {
                 VideoPickerActivity.show(this)
-            }
+            },
+             documentPicker = {
+                 DocumentPickerActivity.show(this)
+             }
         )
 }
 
